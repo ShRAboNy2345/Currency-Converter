@@ -1,0 +1,22 @@
+function convert() {
+	let amount = $("#amount").val();
+	let from = $("#base1").val();
+	let to = $("#base2").val();
+	let rate = 0,
+		out;
+	const settings = {
+		async: true,
+		crossDomain: true,
+		url: "https://api.exchangeratesapi.io/latest?base=" + from,
+		method: "GET"
+	};
+	$.ajax(settings).done((response) => {
+		let rates = response["rates"];
+		rate = rates[to];
+		out = Number(amount) * Number(rate);
+		out = out.toFixed(2);
+		$("#output").html(`${amount} ${from} is ${out} in ${to}`);
+	});
+}
+
+$("#get").click(convert);
